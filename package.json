@@ -1,0 +1,50 @@
+{
+  "name": "oneapi-ce",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "nx build",
+    "build:watch": "nx build --watch",
+    "build:prod": "nx build --prod",
+    "publish": "nx publish",
+    "prepare": "husky install",
+    "lint": "nx workspace-lint && nx lint",
+    "lintfix": "nx workspace-lint && nx lint --fix",
+    "test": "nx test",
+    "test:watch": "nx test --watch",
+    "test:coverage": "nx test --code-coverage",
+    "test:ci": "nx test --code-coverage --maxWorkers=1",
+    "test:debug": "nx test --inspect-brk"
+  },
+  "private": true,
+  "lint-staged": {
+    "*.{js,ts}": "nx workspace-lint && nx lint"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
+    "@nrwl/eslint-plugin-nx": "15.6.3",
+    "@nrwl/js": "15.6.3",
+    "@nrwl/linter": "15.6.3",
+    "@nrwl/nx-cloud": "latest",
+    "@nrwl/vite": "15.6.3",
+    "@nrwl/workspace": "15.6.3",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "@vitest/coverage-c8": "~0.25.8",
+    "@vitest/ui": "^0.25.8",
+    "eslint": "~8.15.0",
+    "eslint-config-prettier": "8.1.0",
+    "husky": "^8.0.3",
+    "jsdom": "~20.0.3",
+    "lint-staged": "^13.1.1",
+    "nx": "15.6.3",
+    "prettier": "^2.6.2",
+    "typescript": "~4.8.2",
+    "vite": "^4.0.1",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-tsconfig-paths": "^4.0.2",
+    "vitest": "^0.25.8"
+  }
+}
