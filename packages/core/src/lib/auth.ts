@@ -1,9 +1,7 @@
-import { Cookie } from 'tough-cookie';
 import { JSDOM } from 'jsdom';
-import * as CryptoJS from 'crypto-js';
 
-import { netManager } from './net';
 import { InvalidResponseError } from './error';
+import { Context } from './context';
 
 /**
  * LoginToken is a class that represents the login token.
@@ -50,30 +48,27 @@ class LoginToken {
  * @param key - The key used to encrypt password.
  * @param cookie - The cookie.
  */
-export interface LoginSession {
-  url: string;
+export interface Credential {
   token: LoginToken;
   key: string;
-  cookie: Cookie[];
+  context: Context;
 }
 
 /**
- * createLoginSession is a function that creates a login session.
+ * Credential is a function that creates a credential.
  * @param url - The login url.
- * @returns the login session.
+ * @returns The login session.
  */
-export async function createLoginSession(url: string): Promise<LoginSession> {
-  const response = await netManager.get(url);
+export async function createCredential(url: string): Promise<Credential> {
+  const context = new Context();
+  const response = await context.get(url);
   try {
     const document = new JSDOM(response.data as string).window.document;
     const key = document
       .querySelector('[id="pwdEncryptSalt"]')
       ?.getAttribute('value') as string;
     const token = new LoginToken(document);
-    const cookie = (response.headers['set-cookie'] as string[]).map(
-      (cookie) => Cookie.parse(cookie) as Cookie
-    );
-    return { url, token, key, cookie };
+    return { token, key, context };
   } catch (_error) {
     throw InvalidResponseError;
   }
