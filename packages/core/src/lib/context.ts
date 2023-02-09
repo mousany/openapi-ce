@@ -33,6 +33,10 @@ export function getCookieString(cookie?: Cookie[]): string {
 export class Context {
   private session?: Session;
 
+  constructor(session?: Session) {
+    this.session = session;
+  }
+
   public async get(url: string, options?: AxiosRequestConfig) {
     const cookieString = getCookieString(this.session?.cookie);
     const response = await netManager.get(url, {
