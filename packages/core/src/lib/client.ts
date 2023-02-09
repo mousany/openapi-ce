@@ -3,6 +3,17 @@ import { createCredential, Credential } from './auth';
 import { encodePassword } from './crypto';
 import { UsernameOrPasswordError } from './error';
 
+/**
+ * Client manages the credential of the user.
+ * @class Client
+ * @property credential - The credential of the user.
+ * @url - The url of the login page.
+ * @username - The username of the user.
+ * @password - The password of the user.
+ * @method login - Login to the authentication server.
+ * @method logined - Check if the user has logged in.
+ * @method logout - Logout from the authentication server.
+ */
 export class Client {
   private credential?: Credential;
 
