@@ -23,7 +23,7 @@ export class Client {
     private readonly password: string
   ) {}
 
-  public async login(url?: string): Promise<void> {
+  public async login(url?: string): Promise<Cookie[] | undefined> {
     if (this.credential) {
       return;
     }
@@ -56,7 +56,7 @@ export class Client {
           cookie.key === 'CASTGC' || cookie.key === 'happyVoyagePersonal'
       )
     ) {
-      return;
+      return this.credential?.context.cookie();
     } else {
       throw UsernameOrPasswordError;
     }
