@@ -1,6 +1,6 @@
 # core
 
-This library was generated with [Nx](https://nx.dev).
+This library contains the core functionality of the OneAPI Community Edition.
 
 ## Building
 
