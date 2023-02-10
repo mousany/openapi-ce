@@ -14,7 +14,8 @@
     "test:watch": "nx run-many --target=test --all --args='--watch'",
     "test:coverage": "nx run-many --target=test --all --args='--code-coverage'",
     "test:ci": "nx run-many --target=test --all --parallel=1 --args='--code-coverage'",
-    "test:debug": "nx run-many --target=test --all --args='--inspect-brk'"
+    "test:debug": "nx run-many --target=test --all --args='--inspect-brk'",
+    "test:e2e": "nx run-many --target=e2e --all"
   },
   "private": true,
   "lint-staged": {
