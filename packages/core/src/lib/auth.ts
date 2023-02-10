@@ -55,7 +55,7 @@ export interface Credential {
 }
 
 /**
- * Credential is a function that creates a credential.
+ * createCredential is a function that creates a credential.
  * @param url - The login url.
  * @returns The login session.
  */
