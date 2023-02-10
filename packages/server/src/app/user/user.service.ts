@@ -10,12 +10,8 @@ export class UserService {
   }
 
   async login(username: string, password: string) {
-    const client = new Client(
-      process.env['ONEAPI_LOGIN_URL'],
-      username,
-      password
-    );
-    const cookie = await client.login();
+    const client = new Client(username, password);
+    const cookie = await client.login(process.env['ONEAPI_LOGIN_URL']);
     return cookie;
   }
 
@@ -24,6 +20,13 @@ export class UserService {
       url: process.env['ONEAPI_LOGIN_URL'],
       cookie: cookie.map((cookie: string) => Cookie.parse(cookie)),
     });
-    await context.get(process.env['ONEAPI_LOGOUT_URL']);
+
+    const client = new Client(
+      process.env['ONEAPI_USERNAME'] as string,
+      process.env['ONEAPI_PASSWORD'] as string,
+      context
+    );
+
+    await client.logout(process.env['ONEAPI_LOGOUT_URL']);
   }
 }
