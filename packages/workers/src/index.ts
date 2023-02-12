@@ -8,6 +8,9 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+import { Router } from 'itty-router';
+import { apiRouter } from './api/v1';
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Env {
   // Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
@@ -20,8 +23,18 @@ export interface Env {
   // MY_BUCKET: R2Bucket;
 }
 
+const router = Router({});
+
+router.all('/api/v1/*', apiRouter.handle);
+
+router.all('*', () => new Response('Not found', { status: 404 }));
+
 export default {
-  async fetch(): Promise<Response> {
-    return new Response('Hello World!');
+  async fetch(
+    request: Request,
+    env: Env,
+    ctx: ExecutionContext
+  ): Promise<Response> {
+    return router.handle(request, env, ctx);
   },
 };
