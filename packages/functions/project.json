@@ -1,0 +1,96 @@
+{
+    "name": "functions",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/functions/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/js:tsc",
+            "outputs": [
+                "{options.outputPath}"
+            ],
+            "options": {
+                "outputPath": "dist/packages/functions",
+                "main": "packages/functions/src/index.ts",
+                "tsConfig": "packages/functions/tsconfig.lib.json",
+                "assets": [
+                    "packages/functions/*.md"
+                ]
+            }
+        },
+        "build:watch": {
+            "executor": "@nrwl/js:tsc",
+            "outputs": [
+                "{options.outputPath}"
+            ],
+            "options": {
+                "outputPath": "dist/packages/functions",
+                "main": "packages/functions/src/index.ts",
+                "tsConfig": "packages/functions/tsconfig.lib.json",
+                "assets": [
+                    "packages/functions/*.md"
+                ],
+                "watch": true
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": [
+                "{options.outputFile}"
+            ],
+            "options": {
+                "lintFilePatterns": [
+                    "packages/functions/**/*.ts"
+                ]
+            }
+        },
+        "serve": {
+            "executor": "nx:run-commands",
+            "options": {
+                "cwd": "packages/functions",
+                "commands": [
+                    "firebase emulators:start --only functions"
+                ]
+            },
+            "dependsOn": [
+                "build"
+            ]
+        },
+        "shell": {
+            "executor": "nx:run-commands",
+            "options": {
+                "cwd": "packages/functions",
+                "commands": [
+                    "firebase functions:shell"
+                ]
+            },
+            "dependsOn": [
+                "build"
+            ]
+        },
+        "start": {
+            "dependsOn": [
+                "build"
+            ]
+        },
+        "deploy": {
+            "executor": "nx:run-commands",
+            "options": {
+                "cwd": "packages/functions",
+                "commands": [
+                    "firebase deploy --only functions"
+                ]
+            }
+        },
+        "logs": {
+            "executor": "nx:run-commands",
+            "options": {
+                "cwd": "packages/functions",
+                "commands": [
+                    "firebase functions:log"
+                ]
+            }
+        }
+    },
+    "tags": []
+}

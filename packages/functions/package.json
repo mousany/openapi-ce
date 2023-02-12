@@ -1,0 +1,4 @@
+{
+  "name": "@oneapi/functions",
+  "main": "../../dist/packages/functions/src/index.js"
+}
