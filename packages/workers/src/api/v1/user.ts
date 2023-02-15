@@ -6,10 +6,10 @@ export const userRouter = Router({
   base: '/api/v1/user',
 });
 
-userRouter.post('/login', async (request) => {
+userRouter.post('/login', async (request, env) => {
   const { username, password } = await request.json();
   const client = new Client(username, password);
-  const cookies = await client.login(ONEAPI_LOGIN_URL);
+  const cookies = await client.login(env.ONEAPI_LOGIN_URL);
 
   const tokenString = cookies.map((cookie) => cookie.toString()).join('; ');
 
