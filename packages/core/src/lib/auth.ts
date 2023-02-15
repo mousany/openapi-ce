@@ -1,4 +1,4 @@
-import { JSDOM } from 'jsdom';
+import * as cheerio from 'cheerio';
 
 import { InvalidResponseError } from './error';
 import { Context } from './context';
@@ -22,21 +22,13 @@ class LoginToken {
   public execution: string;
   public _eventId: string;
 
-  constructor(element: Element | Document) {
+  constructor(cherrioAPI: cheerio.CheerioAPI) {
     this.captcha = '';
-    this.lt = element
-      .querySelector('input[name="lt"]')
-      ?.getAttribute('value') as string;
+    this.lt = cherrioAPI('input[name="lt"]').attr('value') as string;
     this.cllt = 'userNameLogin';
-    this.dllt = element
-      .querySelector('input[name="dllt"]')
-      ?.getAttribute('value') as string;
-    this.execution = element
-      .querySelector('input[name="execution"]')
-      ?.getAttribute('value') as string;
-    this._eventId = element
-      .querySelector('input[name="_eventId"]')
-      ?.getAttribute('value') as string;
+    this.dllt = cherrioAPI('input[name="dllt"]').attr('value') as string;
+    this.execution = cherrioAPI('input[name="execution"]').attr('value') as string;
+    this._eventId = cherrioAPI('input[name="_eventId"]').attr('value') as string;
   }
 }
 
@@ -63,11 +55,9 @@ export async function createCredential(url: string): Promise<Credential> {
   const context = new Context();
   const response = await context.get(url);
   try {
-    const document = new JSDOM(response.data as string).window.document;
-    const key = document
-      .querySelector('[id="pwdEncryptSalt"]')
-      ?.getAttribute('value') as string;
-    const token = new LoginToken(document);
+    const cheerioAPI = cheerio.load(response.data as string);
+    const key = cheerioAPI('input[id="pwdEncryptSalt"]').attr('value') as string;
+    const token = new LoginToken(cheerioAPI);
     return { token, key, context };
   } catch (_error) {
     throw InvalidResponseError;
